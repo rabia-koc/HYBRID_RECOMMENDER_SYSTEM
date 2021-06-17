@@ -74,17 +74,18 @@ user_movie_count[user_movie_count["movie_count"] > 130].count()  # Kullanıcı i
 # GÖREV 4: Öneri Yapılacak Kullanıcı ile En Benzer Kullanıcıların Belirlenmesi
 #############################################
 
-final_df = movies_watched_df[movies_watched_df.index.isin(users_same_movies)]
+final_df = pd.concat([movies_watched_df[movies_watched_df.index.isin(users_same_movies)],
+                      fm_user_df[movies_watched]])
 final_df.head()  # User dahil ve diğer kullanıcılar
 
-corr_df = final_df.T.corr().unstack().sort_values()
+corr_df = final_df.T.corr().unstack().sort_values().drop_duplicates()
 corr_df = pd.DataFrame(corr_df, columns=["corr"])
 corr_df.index.names = ['user_id_1', 'user_id_2']    # user_id_1: user, user_id_2: diğer kullanıcılar
 corr_df = corr_df.reset_index()
 corr_df.head()
 
 # user ile yüzde 65 ve üzeri korelasyona sahip kullanıcılar:
-top_users = corr_df[(corr_df["user_id_1"] == user) & (corr_df["corr"] >= 0.65) & (corr_df["user_id_2"] != user)][
+top_users = corr_df[(corr_df["user_id_1"] == user) & (corr_df["corr"] >= 0.65)][
     ["user_id_2", "corr"]].reset_index(drop=True)
 
 top_users = top_users.sort_values(by='corr', ascending=False)  # User ile en yüksek korelasyona sahip olan kullanıcıları sıralandı.
@@ -93,6 +94,9 @@ top_users.rename(columns={"user_id_2": "userId"}, inplace=True)
 # Kullanıcıların hangi filmlere kaç puan verdiğini görmek için rating tablosuna gidilmeli.
 rating = pd.read_csv('HAFTA_04/movie_lens_dataset/rating.csv')
 top_users_ratings = top_users.merge(rating[["userId", "movieId", "rating"]], how='inner')
+
+# Görev 5'ten hemen önce top_user'dan user'ın kendisini çıkarmamız lazım:
+top_users_ratings = top_users_ratings[top_users_ratings["userId"] != user]
 
 #############################################
 # GÖREV 5: Weighted Average Recommendation Score'un Hesaplanması ve İlk 5 Filmin Tutulması

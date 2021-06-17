@@ -32,6 +32,6 @@ barındırmaktadır.
 * Item'ların productların diğer ifadesiyle filmlerin benzerlikliği üzerinden öneriler yapılır.
 * İnput kullanıcıdan alınır ama iş birliğini tüm kullanıcılardan alınır. Filmleri için beğenilme davranışlarına odaklanır.
 
-# User-Based collaborative Filtering
+# User-Based Collaborative Filtering
 * User benzerlikleri üzerinden öneriler yapılır.
 * Odak noktası kullanıcı

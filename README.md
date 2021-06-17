@@ -27,7 +27,8 @@ barındırmaktadır.
 
 # Item-Based Collaborative Filtering
 
-   
+   ![image](https://user-images.githubusercontent.com/73841520/122440513-4d65c200-cfa5-11eb-83b7-7754e0c6571f.png)
+
 * Item'ların productların diğer ifadesiyle filmlerin benzerlikliği üzerinden öneriler yapılır.
 * İnput kullanıcıdan alınır ama iş birliğini tüm kullanıcılardan alınır. Filmleri için beğenilme davranışlarına odaklanır.
 
